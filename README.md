@@ -18,7 +18,6 @@ LearnGrow is a hands-on course-selling web app project inspired by [100x Devs](h
 ## 🗂️ Project Structure
 
 - `client` – React + Recoil frontend (recommended if you're familiar with React)
-- `client-easy` – Simple, beginner-friendly frontend (no React required)
 - `backend` – Express.js REST API
 
 You can mimic the UI from [app.100xdevs.com](https://app.100xdevs.com) for design ideas.
