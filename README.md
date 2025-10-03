@@ -1,250 +1,137 @@
-# Coursify
-**Your task is to create a course-selling website where admin can publish/create courses and user can purchase courses.**
+# LearnGrow
 
-# Frontend
-
-**There are two Client folders**
-- if you are **not** familiar with **React**, pick `client-easy`.
-- if you are familiar with **React**, pick `client`.
-
-**Tips**: you can try cloning the UI of **app.100xdevs.com**.
-# Backend
-
-# Admin Routes Structure
-
-### POST /admin/signup 
-**Description**: Creates a new admin account.  
-**Input**: 
-```json
-{ 
-  "username": "admin", 
-  "password": "pass" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "Admin created successfully", 
-  "token": "jwt_token_here" 
-}
-```
+LearnGrow is a hands-on course-selling web app project inspired by [100x Devs](https://app.100xdevs.com). The goal: help you learn modern web development by building a full-stack application where admins publish courses and users can buy them.
 
 ---
 
-### POST /admin/login 
-**Description**: Authenticates an admin. It requires the admin to send username and password in the headers.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "username": "admin", 
-  "password": "pass" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "Logged in successfully", 
-  "token": "jwt_token_here" 
-}
-```
+## 🚀 Features
+
+- **Admin Panel:** Easily create, edit, and manage courses.
+- **User Portal:** Sign up, log in, browse, and purchase courses.
+- **Secure Authentication:** JWT-based login for both admins and users.
+- **Course Management:** Publish/unpublish and update course details.
+- **Purchase Tracking:** Users can view their purchased courses.
+- **State Management:** Uses [Recoil](https://recoiljs.org/) for efficient state in React frontend.
 
 ---
 
-### POST /admin/courses 
-**Description**: Creates a new course.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "Authorization": "Bearer jwt_token_here" 
-}
-```  
-**Body**: 
-```json
-{ 
-  "title": "course title", 
-  "description": "course description", 
-  "price": 100, 
-  "imageLink": "https://linktoimage.com", 
-  "published": true 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "Course created successfully", 
-  "courseId": 1 
-}
-```
+## 🗂️ Project Structure
+
+- `client` – React + Recoil frontend (recommended if you're familiar with React)
+- `client-easy` – Simple, beginner-friendly frontend (no React required)
+- `backend` – Express.js REST API
+
+You can mimic the UI from [app.100xdevs.com](https://app.100xdevs.com) for design ideas.
 
 ---
 
-### PUT /admin/courses/:courseId 
-**Description**: Edits an existing course. `courseId` in the URL path should be replaced with the ID of the course to be edited.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "Authorization": "Bearer jwt_token_here" 
-}
-```  
-**Body**: 
-```json
-{ 
-  "title": "updated course title", 
-  "description": "updated course description", 
-  "price": 100, 
-  "imageLink": "https://updatedlinktoimage.com", 
-  "published": false 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "Course updated successfully" 
-}
-```
+## 📦 API Reference
+
+### Admin Endpoints
+
+- **POST `/admin/signup`**  
+  Create a new admin.  
+  Request: `{ "username": "admin", "password": "pass" }`  
+  Response: `{ "message": "Admin created successfully", "token": "jwt_token_here" }`
+
+- **POST `/admin/login`**  
+  Log in as admin (send username & password in headers).  
+  Response: `{ "message": "Logged in successfully", "token": "jwt_token_here" }`
+
+- **POST `/admin/courses`**  
+  Create a course (send JWT in Authorization header).  
+  Body:  
+  ```json
+  {
+    "title": "Title",
+    "description": "Description",
+    "price": 100,
+    "imageLink": "https://...",
+    "published": true
+  }
+  ```
+  Response: `{ "message": "Course created successfully", "courseId": 1 }`
+
+- **PUT `/admin/courses/:courseId`**  
+  Edit a course.  
+  Body: *same as above*  
+  Response: `{ "message": "Course updated successfully" }`
+
+- **GET `/admin/courses`**  
+  Get all courses.  
+  Response:  
+  ```json
+  {
+    "courses": [
+      { "id": 1, "title": "...", "description": "...", "price": 100, "imageLink": "...", "published": true }
+    ]
+  }
+  ```
 
 ---
 
-### GET /admin/courses 
-**Description**: Returns all the courses.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "Authorization": "Bearer jwt_token_here" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "courses": [ 
-    { 
-      "id": 1, 
-      "title": "course title", 
-      "description": "course description", 
-      "price": 100, 
-      "imageLink": "https://linktoimage.com", 
-      "published": true 
-    }, 
-    ... 
-  ] 
-}
-```
+### User Endpoints
 
-# User Routes Structure
+- **POST `/users/signup`**  
+  Register a new user.  
+  Request: `{ "username": "user", "password": "pass" }`  
+  Response: `{ "message": "User created successfully", "token": "jwt_token_here" }`
 
----
+- **POST `/users/login`**  
+  User login (send username & password in headers).  
+  Response: `{ "message": "Logged in successfully", "token": "jwt_token_here" }`
 
-### POST /users/signup 
-**Description**: Creates a new user account.  
-**Input**: 
-```json
-{ 
-  "username": "user", 
-  "password": "pass" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "User created successfully", 
-  "token": "jwt_token_here" 
-}
-```
+- **GET `/users/courses`**  
+  List all courses.  
+  Response:  
+  ```json
+  {
+    "courses": [
+      { "id": 1, "title": "...", "description": "...", "price": 100, "imageLink": "...", "published": true }
+    ]
+  }
+  ```
+
+- **POST `/users/courses/:courseId`**  
+  Purchase a course.  
+  Response: `{ "message": "Course purchased successfully" }`
+
+- **GET `/users/purchasedCourses`**  
+  View purchased courses.  
+  Response:  
+  ```json
+  {
+    "purchasedCourses": [
+      { "id": 1, "title": "...", "description": "...", "price": 100, "imageLink": "...", "published": true }
+    ]
+  }
+  ```
 
 ---
 
-### POST /users/login 
-**Description**: Authenticates a user. It requires the user to send username and password in the headers.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "username": "user", 
-  "password": "pass" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "Logged in successfully", 
-  "token": "jwt_token_here" 
-}
-```
+## 🛠️ Tech Stack
+
+- **Frontend:** React (with Recoil) or vanilla JS (client-easy)
+- **Backend:** Node.js, Express.js
+- **Auth:** JWT tokens
 
 ---
 
-### GET /users/courses 
-**Description**: Lists all the courses.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "Authorization": "Bearer jwt_token_here" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "courses": [ 
-    { 
-      "id": 1, 
-      "title": "course title", 
-      "description": "course description", 
-      "price": 100, 
-      "imageLink": "https://linktoimage.com", 
-      "published": true 
-    }, 
-    ... 
-  ] 
-}
-```
+## 📚 Getting Started
+
+1. **Clone the repository**
+2. Install dependencies in both frontend and backend folders.
+3. Start the backend server.
+4. Run the frontend (`client` for React, or `client-easy` for beginners).
 
 ---
 
-### POST /users/courses/:courseId 
-**Description**: Purchases a course. `courseId` in the URL path should be replaced with the ID of the course to be purchased.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "Authorization": "Bearer jwt_token_here" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "message": "Course purchased successfully" 
-}
-```
+## 💡 Tips
+
+- Use Recoil for state management in React UI.
+- Reference [app.100xdevs.com](https://app.100xdevs.com) for design inspiration.
+- Follow the API specs for smooth development.
 
 ---
 
-### GET /users/purchasedCourses 
-**Description**: Lists all the courses purchased by the user.  
-**Input**:  
-**Headers**: 
-```json
-{ 
-  "Authorization": "Bearer jwt_token_here" 
-}
-```  
-**Output**: 
-```json
-{ 
-  "purchasedCourses": [ 
-    { 
-      "id": 1, 
-      "title": "course title", 
-      "description": "course description", 
-      "price": 100, 
-      "imageLink": "https://linktoimage.com", 
-      "published": true 
-    }, 
-    ... 
-  ] 
-}
-```
+Happy learning! 🚀
